@@ -1,29 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <!-- TODO: tietoturva!! -->
-        <meta http-equiv="Content-Security-Policy" content="default-src *;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="lib/leaflet/leaflet.css">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Shady Business</title>
-    </head>
-    <body>
-        <div id="map"></div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="lib/jquery/jquery-3.1.0.min.js"></script>
-        <script type="text/javascript" src="lib/leaflet/leaflet.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </body>
+  <head>
+    <!-- TODO: tietoturva!! -->
+    <meta http-equiv="Content-Security-Policy" content="default-src *;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="lib/leaflet/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="lib/sidebar-v2-0.3.0/css/leaflet-sidebar.min.css">
+    <link rel="stylesheet" type="text/css" href="css/icons.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>Shady Business</title>
+  </head>
+  <body>
+    <div id="sidebar" class="sidebar collapsed">
+      <div class="sidebar-tabs">
+        <ul role="tablist">
+        <li><a href="#about" role="tab"><i class="icon-About-icon"></i></a></li>
+        <li><a href="#profile" role="tab"><i class="icon-gangster"></i></a></li>
+        <li class="disabled"><a href="#messages" role="tab"><i class="icon-envelop"></i></a></li>
+        <li><a href="#inventory" role="tab"><i class="icon-dollar-bag"></i></a></li>
+        <li><a href="#shop" role="tab"><i class="icon-cart"></i></a></li>
+        </ul>
+        
+        <ul role="tablist">
+        <li><a href="#settings" role="tab"><i class="icon-cog"></i></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-content">
+        <div class="sidebar-pane" id="about">
+          <h1 class="sidebar-header">
+          Shady Business
+          <span class="sidebar-close"><i class="icon-circle-left"></i></span>
+          </h1>
+        </div>
+        <div class="sidebar-pane" id="profile">
+          <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="icon-circle-left"></i></span></h1>
+        </div>  
+        <div class="sidebar-pane" id="messages">
+          <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="icon-circle-left"></i></span></h1>
+        </div>
+        <div class="sidebar-pane" id="inventory">
+          <h1 class="sidebar-header">Inventory<span class="sidebar-close"><i class="icon-circle-left"></i></span></h1>
+        </div>
+        <div class="sidebar-pane" id="shop">
+          <h1 class="sidebar-header">Shop<span class="sidebar-close"><i class="icon-circle-left"></i></span></h1>
+        </div>   
+        <div class="sidebar-pane" id="settings">
+          <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="icon-circle-left"></i></span></h1>
+        </div>
+      </div>
+    </div>
+    <div id="map"></div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/jquery/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="lib/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="lib/sidebar-v2-0.3.0/js/leaflet-sidebar.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+  </body>
 </html>

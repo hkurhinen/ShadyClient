@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'icomoon';
+    src:    url('../fonts/icomoon.eot?shjdq1');
+    src:    url('../fonts/icomoon.eot?shjdq1#iefix') format('embedded-opentype'),
+        url('../fonts/icomoon.ttf?shjdq1') format('truetype'),
+        url('../fonts/icomoon.woff?shjdq1') format('woff'),
+        url('../fonts/icomoon.svg?shjdq1#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-gangster:before {
+    content: "\e900";
+}
+.icon-About-icon:before {
+    content: "\e901";
+}
+.icon-dollar-bag:before {
+    content: "\e902";
+}
+.icon-cart:before {
+    content: "\e903";
+}
+.icon-envelop:before {
+    content: "\e904";
+}
+.icon-cog:before {
+    content: "\e905";
+}
+.icon-circle-left:before {
+    content: "\e906";
+}
+
