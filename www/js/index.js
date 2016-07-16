@@ -4,6 +4,9 @@ var noty = window.noty;
 var geolib = window.geolib;
 var map = null;
 var player = null;
+var playerCircle = null;
+var MAX_RADIUS = 35;
+var SCAN_SPEED = 0.5;
 var prevTime = 0;
 var prevLocation = {};
 var dragging = false;
@@ -16,7 +19,8 @@ var PlayerIcon = L.Icon.Default.extend({
   options: {
     iconUrl: 'img/gangster.svg',
     iconSize: [54, 57],
-    shadowSize: [0, 0]
+    shadowSize: [0, 0],
+    iconAnchor: [27, 28]
   }
 });
 var playerIcon = new PlayerIcon();
@@ -24,7 +28,8 @@ var CarIcon = L.Icon.Default.extend({
   options: {
     iconUrl: 'img/car.svg',
     iconSize: [106, 50],
-    shadowSize: [0, 0]
+    shadowSize: [0, 0],
+    iconAnchor: [53, 25]
   }
 });
 var carIcon = new CarIcon();
@@ -36,20 +41,45 @@ var app = {
   bindEvents: function() {
       document.addEventListener('deviceready', this.onDeviceReady, false);
   },
+  animateCircle: function() {
+    var currentRadius = playerCircle.getRadius();
+    if (currentRadius >= MAX_RADIUS) {
+      currentRadius = 0;
+    } else {
+      currentRadius += SCAN_SPEED;
+    }
+    playerCircle.setRadius(currentRadius);
+    playerCircle.setLatLng(player.getLatLng());
+    window.requestAnimationFrame(app.animateCircle);
+  },
   onLocationUpdated: function(pos) {
     if (!player) {
       map.setView(new L.LatLng(pos.coords.latitude, pos.coords.longitude), 18);
       prevTime = Date.now();
       prevLocation.lat = pos.coords.latitude;
       prevLocation.lng = pos.coords.longitude;
-      player = L.Marker.movingMarker([[pos.coords.latitude, pos.coords.longitude]], [0], { icon: playerIcon, autostart: true }).addTo(map);
+      
+      player = L.Marker.movingMarker(
+        [[pos.coords.latitude, pos.coords.longitude], [pos.coords.latitude, pos.coords.longitude]],
+        [0],
+        { icon: playerIcon, autostart: true}).addTo(map);
+      
+      playerCircle = L.circle([pos.coords.latitude, pos.coords.longitude], 500, {
+          color: 'red',
+          fillOpacity: 0
+      }).addTo(map);
+      
+      window.requestAnimationFrame(app.animateCircle);
+      
       map.on('dragstart', function(){
         dragging = true;
       });
+      
       map.on('dragend', function(){
         dragging = false;
         map.panTo(player.getLatLng());
       });
+   
     } else {
       var newTime = Date.now();
       var newLocation = {};
