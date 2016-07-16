@@ -92,6 +92,7 @@ var app = {
       attribution: 'Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.'
     });
   	map.addLayer(tiles);
+    
     L.control.sidebar('sidebar').addTo(map);
     navigator.geolocation.watchPosition(
       app.onLocationUpdated,
