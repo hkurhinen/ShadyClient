@@ -6,6 +6,7 @@ var map = null;
 var player = null;
 var prevTime = 0;
 var prevLocation = {};
+var dragging = false;
 var LOCATION_OPTIONS = {
   maximumAge: 3000,
   timeout: 5000,
@@ -18,6 +19,15 @@ var PlayerIcon = L.Icon.Default.extend({
     shadowSize: [0, 0]
   }
 });
+var playerIcon = new PlayerIcon();
+var CarIcon = L.Icon.Default.extend({
+  options: {
+    iconUrl: 'img/car.svg',
+    iconSize: [106, 50],
+    shadowSize: [0, 0]
+  }
+});
+var carIcon = new CarIcon();
 
 var app = {
   initialize: function() {
@@ -28,12 +38,18 @@ var app = {
   },
   onLocationUpdated: function(pos) {
     if (!player) {
-      var playerIcon = new PlayerIcon();
       map.setView(new L.LatLng(pos.coords.latitude, pos.coords.longitude), 18);
       prevTime = Date.now();
       prevLocation.lat = pos.coords.latitude;
       prevLocation.lng = pos.coords.longitude;
-      player = L.marker([pos.coords.latitude, pos.coords.longitude], { icon: playerIcon }).addTo(map);
+      player = L.Marker.movingMarker([[pos.coords.latitude, pos.coords.longitude]], [0], { icon: playerIcon, autostart: true }).addTo(map);
+      map.on('dragstart', function(){
+        dragging = true;
+      });
+      map.on('dragend', function(){
+        dragging = false;
+        map.panTo(player.getLatLng());
+      });
     } else {
       var newTime = Date.now();
       var newLocation = {};
@@ -43,9 +59,17 @@ var app = {
         {lat: prevLocation.lat, lng: prevLocation.lng, time: prevTime},
         {lat: newLocation.lat, lng: newLocation.lng, time: newTime}
       );
+      if (speed > 30) {
+        player.setIcon(carIcon);
+      } else {
+        player.setIcon(playerIcon);
+      }
       prevLocation = newLocation;
       prevTime = newTime;
-      player.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+      player.moveTo([pos.coords.latitude, pos.coords.longitude], 100);
+      if(!dragging){
+        map.panTo([pos.coords.latitude, pos.coords.longitude]);
+      }
     }
   },
   onLocationError: function(err) {
