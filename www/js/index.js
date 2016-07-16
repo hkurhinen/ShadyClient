@@ -1,5 +1,6 @@
 var $ = window.$;
 var L = window.L;
+var noty = window.noty;
 var map = null;
 var player = null;
 var LOCATION_OPTIONS = {
@@ -32,7 +33,16 @@ var app = {
     }
   },
   onLocationError: function(err) {
-    alert(JSON.stringify(err));
+    noty({
+      text: 'Error getting location.',
+      layout: 'top',
+      type: 'error',
+      timeout: 3000,
+      animation: {
+        open: 'animated pulse',
+        close: 'animated fadeOut',
+      }
+    });
   },
   onDeviceReady: function() {
     map = new L.Map('map', { zoomControl:false });
