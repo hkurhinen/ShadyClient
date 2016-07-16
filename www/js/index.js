@@ -1,8 +1,11 @@
 var $ = window.$;
 var L = window.L;
 var noty = window.noty;
+var geolib = window.geolib;
 var map = null;
 var player = null;
+var prevTime = 0;
+var prevLocation = {};
 var LOCATION_OPTIONS = {
   maximumAge: 3000,
   timeout: 5000,
@@ -27,8 +30,21 @@ var app = {
     if (!player) {
       var playerIcon = new PlayerIcon();
       map.setView(new L.LatLng(pos.coords.latitude, pos.coords.longitude), 18);
+      prevTime = Date.now();
+      prevLocation.lat = pos.coords.latitude;
+      prevLocation.lng = pos.coords.longitude;
       player = L.marker([pos.coords.latitude, pos.coords.longitude], { icon: playerIcon }).addTo(map);
     } else {
+      var newTime = Date.now();
+      var newLocation = {};
+      newLocation.lat = pos.coords.latitude;
+      newLocation.lng = pos.coords.longitude;
+      var speed = geolib.getSpeed(
+        {lat: prevLocation.lat, lng: prevLocation.lng, time: prevTime},
+        {lat: newLocation.lat, lng: newLocation.lng, time: newTime}
+      );
+      prevLocation = newLocation;
+      prevTime = newTime;
       player.setLatLng([pos.coords.latitude, pos.coords.longitude]);
     }
   },
