@@ -42,3 +42,7 @@ body {
   -webkit-transition: width 500ms;
 }
 
+.scanner {
+  -webkit-filter: blur(20px);
+  filter: blur(20px);
+}

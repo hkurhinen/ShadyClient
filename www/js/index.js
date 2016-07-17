@@ -62,11 +62,15 @@ var app = {
       player = L.Marker.movingMarker(
         [[pos.coords.latitude, pos.coords.longitude], [pos.coords.latitude, pos.coords.longitude]],
         [0],
-        { icon: playerIcon, autostart: true}).addTo(map);
+        { icon: playerIcon,
+          autostart: true
+        }).addTo(map);
       
       playerCircle = L.circle([pos.coords.latitude, pos.coords.longitude], 500, {
-          color: 'red',
-          fillOpacity: 0
+        color: 'red',
+        fill: false,
+        opacity: 1,
+        weight: 2
       }).addTo(map);
       
       window.requestAnimationFrame(app.animateCircle);
