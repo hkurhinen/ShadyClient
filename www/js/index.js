@@ -82,6 +82,7 @@ var app = {
    
     } else {
       var newTime = Date.now();
+      var duration = newTime - prevTime;
       var newLocation = {};
       newLocation.lat = pos.coords.latitude;
       newLocation.lng = pos.coords.longitude;
@@ -96,8 +97,8 @@ var app = {
       }
       prevLocation = newLocation;
       prevTime = newTime;
-      player.moveTo([pos.coords.latitude, pos.coords.longitude], 100);
-      if(!dragging){
+      player.moveTo([pos.coords.latitude, pos.coords.longitude], duration);
+      if (!dragging){
         map.panTo([pos.coords.latitude, pos.coords.longitude]);
       }
     }
