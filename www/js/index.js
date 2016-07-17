@@ -124,6 +124,17 @@ var app = {
     });
   	map.addLayer(tiles);
     
+    /* Hack to make leaflet preload tiles which are not in viewport */
+    var getPxBounds = map.getPixelBounds;
+    map.getPixelBounds = function () {
+      var bounds = getPxBounds.call(this);
+      bounds.min.x=bounds.min.x-1000;
+      bounds.min.y=bounds.min.y-1000;
+      bounds.max.x=bounds.max.x+1000;
+      bounds.max.y=bounds.max.y+1000;
+      return bounds;
+    };
+    
     L.control.sidebar('sidebar').addTo(map);
     navigator.geolocation.watchPosition(
       app.onLocationUpdated,
