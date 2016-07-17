@@ -41,7 +41,7 @@ var app = {
   bindEvents: function() {
       document.addEventListener('deviceready', this.onDeviceReady, false);
   },
-  animateCircle: function() {
+  animateMap: function() {
     var currentRadius = playerCircle.getRadius();
     if (currentRadius >= MAX_RADIUS) {
       currentRadius = 0;
@@ -50,7 +50,10 @@ var app = {
     }
     playerCircle.setRadius(currentRadius);
     playerCircle.setLatLng(player.getLatLng());
-    window.requestAnimationFrame(app.animateCircle);
+    if (!dragging){
+      map.panTo(player.getLatLng());
+    }
+    window.requestAnimationFrame(app.animateMap);
   },
   onLocationUpdated: function(pos) {
     if (!player) {
@@ -69,7 +72,7 @@ var app = {
           fillOpacity: 0
       }).addTo(map);
       
-      window.requestAnimationFrame(app.animateCircle);
+      window.requestAnimationFrame(app.animateMap);
       
       map.on('dragstart', function(){
         dragging = true;
@@ -98,9 +101,6 @@ var app = {
       prevLocation = newLocation;
       prevTime = newTime;
       player.moveTo([pos.coords.latitude, pos.coords.longitude], duration);
-      if (!dragging){
-        map.panTo([pos.coords.latitude, pos.coords.longitude]);
-      }
     }
   },
   onLocationError: function(err) {
